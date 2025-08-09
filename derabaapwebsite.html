@@ -1,0 +1,2282 @@
+<!-- Made by ☕︎︎ Burhanuddin shah -->
+<!-- THREE.js fixed by Bob Li -->
+<!-- Background by `ᴴᵗᵗየ -->
+
+<!-- Please don't copy. I don't want you to even if you give credit -->
+
+<!-- Bruh this code is so big that my phone lags when I try to open it 😭 -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Burhanuddin shah Cookie Clicker 2</title>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+    content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <style>
+        @import url("https://fonts.googleapis.com/css?family=Poppins");
+        @import url('https://fonts.cdnfonts.com/css/public-pixel');
+        @import url('https://fonts.cdnfonts.com/css/pusab');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Pusab', menlo;
+        }
+
+        .vspace2 {
+            height: 175px;
+        }
+
+        #title {
+            font-size: 40px;
+            text-align: center;
+        }
+
+        #birb {
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+        }
+
+        #astro {
+            display: inline;
+            animation: follow 5s linear infinite;
+        }
+        
+        .vspace3 {
+            height: 50px;
+        }
+        
+        .vspace4 {
+            height: 25px;
+        }
+
+        .loading {
+            text-align: center;
+            font-size: 25px;
+        }
+        
+        .loader {
+            border: 10px solid gray;
+            border-radius: 50%;
+            border-top: 10px solid #f90;
+            width: 75px;
+            height: 75px;
+            dusplay: block;
+            margin: auto;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        #startButton {
+            width: 100px;
+            height: 60px;
+            color: white;
+            background-color: green;
+            padding: 7.5px;
+            font-size: 22.5px;
+            border: 5px solid gray;
+            border-radius: 15px;
+            display: block;
+            margin: auto;
+            animation: border 2.5s linear infinite;
+        }
+
+        #startButton:hover {
+            cursor: pointer;
+            background-color: darkgreen;
+            color: lightgray;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        #loadProgress {
+            height: 15px;
+            width: 300px;
+            border-radius: 15px;
+            display: block;
+            margin: auto;
+        }
+        
+        #loadProgress::-webkit-progress-value {
+            background-image: -webkit-linear-gradient(-45deg, transparent 33%, rgba(0,0,0,0.3) 33%, rgba(0,0,0,0.1) 66%, transparent 66%), -webkit-linear-gradient(top, rgba(255, 255, 255, .25), rgba(0, 0, 0, .25)), -webkit-linear-gradient(left, green, teal);
+            background-size: 55px 30px, 100% 100%, 100% 100%;
+            border-radius: 2.5px;
+        }
+
+        #loadProgress::-webkit-progress-bar {
+              background-color: gray;
+              border-radius: 2.5px;
+        }
+
+        #loadProgress::-moz-progress-bar {
+              border-radius: 2.5px;
+        }
+
+
+        .hidden {
+            display: none;
+            visibility: hidden;
+            width: 0px;
+            height: 0px;
+        }
+
+        .hide {
+            animation: hide 1s ease-in-out infinite;
+        }
+
+        .show {
+            animation: show 1s ease-in-out;
+        }
+
+        @keyframes hide {
+            0% {
+                transform: translateX(0px);
+            }
+
+            100% {
+                transform: translateX(-350px);
+            }
+        }
+
+        @keyframes show {
+            0% {
+                transform: translateX(-350px);
+            }
+
+            100% {
+                transform: translateX(0px);
+            }
+        }
+
+        body {
+            color: white;
+            background-color: #000;
+            overflow-x: hidden;
+            background-size: 58px 58px;
+            background-position: 0px 2px, 4px 35px, 29px 31px, 34px 6px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        #close, #open {
+            width: 35px;
+            height: 50px;
+            color: white;
+            background: transparent;
+            border: none;
+            font-size: 25px;
+            font-family: 'Poppins', menlo;
+            border-radius: 50%;
+            justify-content: center;
+            align-items: center;
+            z-index: 2;
+            position: fixed;
+            top: 35px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #close:hover, #open:hover {
+            cursor: pointer;
+        }
+
+        #muteAudio {
+            color: white;
+            background-color: gray;
+            font-size: 15px;
+            padding: 5px;
+            border: 1px solid black;
+            border-radius: 5px;
+        }
+        
+        #muteAudio:hover {
+            color: lightgray;
+            background-color: smokeygray;
+            cursor: pointer;
+        }
+        
+        #saveGame {
+            color: white;
+            background-color: green;
+            font-size: 15px;
+            padding: 5px;
+            border: 1px solid black;
+            border-radius: 5px;
+        }
+        
+        #saveGame:hover {
+            color: lightgray;
+            background-color: darkgreen;
+            cursor: pointer;
+        }
+        
+        #help {
+            color: white;
+            background-color: #f90;
+            font-size: 15px;
+            padding: 5px;
+            border: 1px solid black;
+            border-radius: 5px;
+        }
+        
+        #help:hover {
+            color: lightgray;
+            background-color: #f70;
+            cursor: pointer;
+        }
+
+        .h {
+            font-size: 15px;
+            text-align: center;
+            margin-top: 5px;
+        }
+        
+        #navbar {
+            width: auto;
+            height: 65px;
+            background-color: teal;
+            font-size: 30px;
+            padding-left: 15px;
+            padding-right: 15px;
+            box-shadow: 5px 5px darkslategray;
+            z-index: 1;
+            position: fixed;
+            top: 25px;
+        }
+
+        a {
+            color: white;
+            font-size: 15px;
+            text-decoration: underline;
+            display: inline-flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
+
+        a[href="#shopSign"], a[href="#settings"], a[href="#follow"], a[href="#achievements"] {
+            font-family: 'Poppins', bold;
+        }
+
+        .followLinks {
+            background-color: black;
+            border: 5px solid black;
+            font-size: 35px;
+            display: block;
+            text-align: center;
+            animation: border 5s linear inifinite;
+        }
+        
+        @keyframes border {
+            0%, 100% {
+                border: 5px solid red;
+            }
+            
+            14% {
+                border: 5px solid orange;
+            }
+            
+            28% {
+                border: 5px solid yellow;
+            }
+            
+            42% {
+                border: 5px solid green;
+            }
+            
+            56% {
+                border: 5px solid blue;
+            }
+            
+            70% {
+                border: 5px solid purple;
+            }
+            
+            84% {
+                border: 5px solid pink;
+            }
+        }
+
+        a:hover {
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        #news {
+            background: transparent;
+            padding: 5px;
+            border: 5px solid goldenrod;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        #factoryName {
+            text-align: center;
+            font-size: 35px;
+        }
+
+        canvas {
+            border: 2.5px solid gold;
+            border-radius: 0px, 0px, 15px, 15px;
+        }
+
+        canvas:hover {
+            cursor: grab;
+        }
+
+        canvas:active {
+            cursor: grabbing;
+        }
+
+        .bigCookie {
+            display: none;
+            width: 200px;
+            height: 200px;
+            background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRByFTyfEF0v54EaOW3gwUgN0P4SGEBagb3P1uP49Mc6A&s=10");
+            background-color: teal;
+            background-size: cover;
+            border: 5px solid #ff9900;
+            border-radius: 50%;
+            box-shadow: 10px 10px 5px #000;
+            margin: auto;
+        }
+
+        #cookieCount, #cursorCountDisplay, #multiplierCountDisplay, #cookiesPerSec, #cursorCostDisplay, #multiplierCostDisplay, #brickColorDisplay, #brickHighlightDisplay, #fontColorDisplay, .musicDisplay, .volumeDisplay {
+            padding: 5px;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        #follow {
+            color: black;
+            width: auto;
+            margin: auto;
+            text-align: center;
+            display: inline-block;
+            padding: 20px 40px;
+            background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTx-yNeplA5iL-HamtTPYkfqufl5kqNCIZMKD0B7Q_c2A&s=10');
+            background-repeat: repeat-x;
+            background-size: 66.5px;
+            border: none;
+            border-radius: 5px;
+            font-size: 32px;
+            animation: follow 5s linear infinite;
+        }
+        
+        @keyframes follow {
+            0%, 100% {
+                color: red;
+            }
+            
+            14% {
+                color: orange;
+            }
+            
+            28% {
+                color: yellow;
+            }
+            
+            42% {
+                color: green;
+            }
+            
+            56% {
+                color: blue;
+            }
+            
+            70% {
+                color: purple;
+            }
+            
+            84% {
+                color: pink;
+            }
+        }
+
+        .nuhUh {
+            animation: nuhUh .25s ease-in-out infinite;
+        }
+
+        @keyframes nuhUh {
+            0%, 100% {
+                transform: translateX(15px);
+            }
+
+            50% {
+                transform: translateX(-30px);
+            }
+        }
+
+        #buyMultiplier {
+            color: white;
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        #buyMultiplier:hover {
+            background-color: #45a049;
+        }
+
+        #buyCursor {
+            color: white;
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            background-color: #008CBA;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        #buyCursor:hover {
+            background-color: #007bb5;
+        }
+
+        #resetGameBtn, #resetGameBtn2 {
+            color: white;
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #f44336;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #resetGameBtn:hover, #resetGameBtn2:hover {
+            background-color: #da190b;
+        }
+        
+        #shopSign {
+            width: 75px;
+            color: black;
+            background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdnb5gd8qovjEYnysXrZaFWX7jvU7iUlga7aoTOyLHGg&s");
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: 150px;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: 'Public Pixel', bold;
+            font-size: 15px;
+            box-shadow: 5px 5px 5px #000;
+            display: block;
+            margin: auto;
+            text-align: center;
+            transform: rotate(-15deg);
+        }
+        
+        #settings {
+            width: 125px;
+            color: black;
+            background-image: url("data:image/jpeg;base64,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");
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: 150px;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: 'Public Pixel', bold;
+            font-size: 15px;
+            box-shadow: 5px 5px 5px #000;
+            display: block;
+            margin: auto;
+            text-align: center;
+            transform: rotate(12deg);
+        }
+        
+        input[type="color"] {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-color: #fff;
+            box-shadow: 10px 10px 5px #000;
+            border-radius: 15px;
+            width: 100px;
+            height: 100px;
+            border: 7px solid goldenrod;
+            display: block;
+            margin: auto;
+          }
+      
+          input[type="color"]::-webkit-color-swatch {
+            border: 2.5px solid black;
+            border-radius: 15px;
+          }
+      
+          input[type="color"]::-moz-color-swatch {
+            border: 2.5px solid black;
+            border-radius: 15px;
+          }
+
+        input[type="color"]:hover {
+            cursor: pointer;
+        }
+
+        input[type=range] {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            width: 90%;
+            margin: 0px 0px 20px 0px;
+            display: block;
+            margin: auto;
+        }
+        
+        input[type=range]:focus {
+            outline: none;
+        }
+        
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 10px;
+            cursor: pointer;
+            box-shadow: 0px 0px 0px rgba(0, 0, 0, 0), 0px 0px 0px rgba(13, 13, 13, 0);
+            background: #eee;
+            border-radius: 0px;
+            border: 0px solid rgba(0, 0, 0, 0);
+        }
+        
+        input[type=range]::-webkit-slider-thumb {
+            box-shadow: 0px 0px 0px rgba(0, 0, 0, 0), 0px 0px 0px rgba(13, 13, 13, 0);
+            border: 0px solid rgba(0, 0, 0, 0);
+            height: 20px;
+            width: 10px;
+            border-radius: 0px;
+            background: #ccc;
+            cursor: pointer;
+            -webkit-appearance: none;
+            margin-top: -5px;
+        }
+
+        input[type=range]:focus::-webkit-slider-runnable-track {
+            background: #fff;
+        }
+        
+        input[type=range]::-moz-range-track {
+            width: 100%;
+            height: 10px;
+            cursor: pointer;
+            box-shadow: 0px 0px 0px rgba(0, 0, 0, 0), 0px 0px 0px rgba(13, 13, 13, 0);
+            background: #eee;
+            border-radius: 0px;
+            border: 0px solid rgba(0, 0, 0, 0);
+        }
+        
+        input[type=range]::-moz-range-thumb {
+            box-shadow: 0px 0px 0px rgba(0, 0, 0, 0), 0px 0px 0px rgba(13, 13, 13, 0);
+            border: 0px solid rgba(0, 0, 0, 0);
+            height: 20px;
+            width: 10px;
+            border-radius: 0px;
+            background: #ccc;
+            cursor: pointer;
+        }
+        
+        input[type=range]::-ms-track {
+            width: 100%;
+            height: 10px;
+            cursor: pointer;
+            background: transparent;
+            border-color: transparent;
+            color: transparent;
+        }
+        
+        input[type=range]::-ms-fill-lower {
+            background: #eee;
+            border: 0px solid rgba(0, 0, 0, 0);
+            border-radius: 0px;
+            box-shadow: 0px 0px 0px rgba(0, 0, 0, 0), 0px 0px 0px rgba(13, 13, 13, 0);
+        }
+
+        input[type=range]::-ms-fill-upper {
+            background: #eee;
+            border: 0px solid rgba(0, 0, 0, 0);
+            border-radius: 0px;
+            box-shadow: 0px 0px 0px rgba(0, 0, 0, 0), 0px 0px 0px rgba(13, 13, 13, 0);
+        }
+        
+        input[type=range]::-ms-thumb {
+            box-shadow: 0px 0px 0px rgba(0, 0, 0, 0), 0px 0px 0px rgba(13, 13, 13, 0);
+            border: 0px solid rgba(0, 0, 0, 0);
+            height: 20px;
+            width: 10px;
+            border-radius: 0px;
+            background: #ccc;
+            cursor: pointer;
+            height: 10px;
+        }
+        
+        input[type=range]:focus::-ms-fill-lower {
+            background: #eee;
+        }
+
+        #volumeValue {
+            text-align: center;
+            font-family: 'Public Pixel', 'Pusab';
+        }
+        
+        input[type=range]:focus::-ms-fill-upper {
+            background: #fff;
+        }
+          
+          #defaultBrickCol, #defaultHighlightCol, #defaultFontCol {
+            color: white;
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            background-color: gold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        #defaultBrickCol:hover, #defaultHighlightCol:hover, #defaultFontCol:hover {
+            background-color: goldenrod;
+        }
+
+        #bgMusic1, #bgMusic2, #bgMusic3, #bgMusic4, #bgMusic5 {
+            display: block;
+            margin: auto;
+        }
+
+        #noAchievements {
+            text-align: center;
+        }
+
+        #achievement1, #achievement2, #achievement3, #achievement4, #achievement5 {
+            position: relative;
+            background-color: gold;
+            box-shadow: 0px 10px goldenrod;
+            border: 5px solid goldenrod;
+            border-radius: 15px;
+            padding: 15px;
+            font-size: 25px;
+            text-align: center;
+            z-index: 0;
+        }
+
+        #achievement1:hover, #achievement2:hover, #achievement3:hover, #achievement4:hover, #achievement5:hover {
+            transform: rotateX(-25deg);
+            perspective: 100px;
+            transition: .5s;
+        }
+
+        #achievement1:before, #achievement2:before, #achievement3:before, #achievement4:before, #achievement5:before {
+            content: '';
+            position: absolute;
+            top: 0px;
+            left: 250px;
+            width: 40px;
+            height: 100%;
+            background-image: linear-gradient(to left, transparent, rgba(255,255,255,0.4 ), transparent );
+            transform: skewx(30deg) translatex(80px);
+            transition: .5s;
+        }
+
+        #achievement1:hover:before, #achievement2:hover:before, #achievement3:hover:before, #achievement4:hover:before, #achievement5:hover:before {
+            transform: skewx(30deg) translatex(-250px);
+        }
+        
+        .vspace {
+            height: 500px;
+        }
+
+        canvas { 
+            display: block; 
+            width: 50vw;
+            height: 50vh;
+            margin: 20px auto;
+            border-radius: 15px;
+        }
+
+        .flash {
+            background-image: none;
+            animation: flash 2s ease-in-out infinite;
+        }
+        
+        @keyframes flash {    
+            0% {
+                background: yellow;
+            }
+            
+            100% {
+                background-color: #dd7973;
+            }
+        }
+        
+        .nuke {
+            animation: demolish 0.1s linear infinite;
+        }
+        
+        @keyframes demolish {
+            0% {
+                margin-top: 13px;
+                margin-left: -13px;
+            }
+            
+            20% {
+                margin-top: -13px;
+                margin-left: 13px;
+            }
+            
+            40% {
+                margin-top: 0px;
+                margin-right: 0px;
+            }
+            
+            60% {
+                margin-top: 13px;
+                margin-left: -13px;
+            }
+            
+            80% {
+                margin-top: 0px;
+                margin-right: 0px;
+            }
+            
+            100% {
+                margin-top: 13px;
+                margin-left: -13px;
+            }
+        }
+
+        #endText1, #endText2, #endText3, #endText4, #endText5, #endText6 {
+            font-family: 'Public pixel', menlo;
+            text-align: center;
+            margin: auto;
+        }
+        
+        #endFollow {
+            color: #fff;
+            text-align: center;
+            rotate: 15deg;
+            animation: pulse 1s ease-in-out infinite;
+            font-family: 'Pusab', menlo;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                scale: 1;
+                color: red;
+            }
+    
+            50% {
+                scale: 1.5;
+            }
+    
+            14% {
+                color: orange;
+            }
+            
+            28% {
+                color: yellow;
+            }
+            
+            42% {
+                color: green;
+            }
+            
+            56% {
+                color: blue;
+            }
+            
+            70% {
+                color: purple;
+            }
+            
+            84% {
+                color: pink;
+            }
+        }
+
+        #birb2 {
+            width: 250px;
+            height: 250px;
+            display: block;
+            margin: auto;
+            border-radius: 15px;
+        }
+
+        #advertisement {
+            color: #fff;
+            font-family: 'Poppins', menlo;
+            text-align: center;
+        }
+
+        .fade {
+            animation: fade 5s ease-out infinite;
+        }
+
+        @keyframes fade {
+            from {
+                opacity: 0;
+            }
+    
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="vspace2"></div>
+    <h1 id="title"><div id="astro">☕︎︎ Astr<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTx-yNeplA5iL-HamtTPYkfqufl5kqNCIZMKD0B7Q_c2A&s=10" id="birb">Birb ✦'s<br></div>Cookie Clicker<br>2</h1>
+    <div class="vspace3"></div>
+    <p class="loading">Loading...</p>
+    <div class="vspace4"></div>
+    <div class="loader"></div>
+    <button id="startButton">Start</button>
+    <div class="vspace4"></div>
+    <progress id="loadProgress" max="100" value="0"></progress>
+    <div id="everything">
+    <div id="navbar">
+        <a href="#shopSign">Shop</a>
+        <a href="#settings">Settings</a>
+        <a href="#follow">Follow Me</a>
+        <a href="#achievements">Achievements</a><br>
+        <center>
+            <button id="muteAudio">Mute Music</button>
+            <button id="saveGame">Save Game</button>
+            <button id="help">Help</button>
+        </center>
+        <p class="h">(Change music in settings)</p>
+    </div>
+    <br>
+    <button id="close">◀</button>
+    <button id="open">▶</button>
+    <div id="achievements">
+        <div id="achievement1">New achievement unlocked!<br><br>Get the President to try your cookies.</div>
+        <br>
+        <div id="achievement2">New achievement unlocked!<br><br>Get one billion cookies!</div>
+        <br>
+        <div id="achievement3">New achievement unlocked!<br><br>Start World War III!</div>
+        <br>
+        <div id="achievement4">New achievement unlocked!<br><br>You finished the game... I think?</div>
+        <br>
+        <div id="achievement5">New achievement unlocked!<br><br>Become a QUADRILLIONAIRE!!</div>
+        <br>
+    </div>
+    <br>
+    <div id="noAchievements">No achievements unlocked yet!</div>
+    <br>
+    <div id=news>You decided to start baking cookies.</div>
+    <br>
+    <div id="factoryName"></div>
+    <br>
+    <canvas class="webgl">
+        <div id="bigCookie" class="bigCookie"></div>
+    </canvas>
+    <div id="cookieCount">0 Cookies</div>
+    <div id="cursorCountDisplay">0 Cursors</div>
+    <div id="multiplierCountDisplay">0x Multiplier</div>
+    <div id="cookiesPerSec">0 Cookies/s</div>
+    <br>
+    <br>
+    <div id="shopSign">The<br>Shop</div>
+    <br>
+    <br>
+    <canvas id="webgl3"></canvas>
+    <button id="buyCursor">Buy Cursor</button>
+    <div id="cursorCostDisplay">15 Cookies</div>
+    <canvas id="webgl2"></canvas>
+    <button id="buyMultiplier">Buy Multiplier</button>
+    <div id="multiplierCostDisplay">100 Cookies</div>
+    <br>
+    <br>
+    <div id="settings">settings</div>
+    <br>
+    <br>
+    <div id="brickColorDisplay">Brick Color:</div>
+    <br>
+    <input type="color" id="brickColor" value="#b14a4a">
+    <br>
+    <button id="defaultBrickCol">Default</button>
+    <br>
+    <div id="brickHighlightDisplay">Brick Highlight:</div>
+    <br>
+    <input type="color" id="brickHighlight" value="#dd7973">
+    <br>
+    <button id="defaultHighlightCol">Default</button>
+    <br>
+    <div id ="fontColorDisplay">Font Color:</div>
+    <br>
+    <input type="color" id="fontColor" value="#ffffff">
+    <br>
+    <button id="defaultFontCol">Default</button>
+    <br>
+    <div class="musicDisplay">Change Music:</div>
+    <br>
+    <audio id="bgMusic1" controls loop>
+        <source src="https://dn721605.ca.archive.org/0/items/undertaleost_202004/Undertale%20-%20Lossless%20Soundtrack%20%28toby%20fox%29/toby%20fox%20-%20UNDERTALE%20Soundtrack%20-%2054%20Hotel.flac" type="audio/mp3">
+    </audio>
+    <br>
+    <audio id="bgMusic2" controls loop>
+        <source src="https://eta.vgmtreasurechest.com/soundtracks/gorilla-tag-2021/sjdlemwmpd/09.%20Nice%20Gorilla%20Store%20Hifi.mp3" type="audio/mp3">
+    </audio>
+    <br>
+    <audio id="bgMusic3" controls loop>
+        <source src="https://dl.dropboxusercontent.com/scl/fi/0aql87r4rx9ubb0w3ky0c/game-music.mp3?rlkey=yaxssljlrwvtwhc8ujsycr7at&st" type="audio/mp3" type="audio/mp3">
+    </audio>
+    <br>
+    <audio id="bgMusic4" controls loop>
+        <source src="https://us-east.storage.cloudconvert.com/tasks/c46d3f88-0371-4ba0-85cd-ed7cde5d333d/Edvard-grieg-morning-mood.mp3?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=cloudconvert-production%2F20250707%2Fva%2Fs3%2Faws4_request&X-Amz-Date=20250707T160257Z&X-Amz-Expires=86400&X-Amz-Signature=c19765370b535d4e1df7a0357303a7be52ed14c0ec7350afa118a57150b46724&X-Amz-SignedHeaders=host&response-content-disposition=inline%3B%20filename%3D%22Edvard-grieg-morning-mood.mp3%22&response-content-type=audio%2Fmpeg&x-id=GetObject" type="audio/mp3">
+    </audio>
+    <audio id="bgMusicEnd">
+        <source src="https://us-tuna-sounds-files.voicemod.net/6c2cc120-85ab-44af-9f8e-fc7647cbcd0c-1658989007882.mp3">
+    </audio>
+    <br>
+    <div class="volumeDisplay">Change Volume:</div>
+    <br>
+    <input type="range" id="volume" min="0" max="100" value="100">
+    <br>
+    <h1 id="volumeValue">100</h1>
+    <br>
+    <button id="resetGameBtn">⚠️Reset Save Progress⚠️</button>
+    <div class="vspace"></div>
+    <center><div id="follow">Follow Me!</div></center>
+    <br>
+    <div class="followLinks">
+        <a href="https://www.sololearn.com/en/profile/33070894">Just click this link :></a>
+        <a href="https://www.sololearn.com/en/profile/33070894" target="_blank">If the previous link doesn't work, try this one.</a>
+        <a href="https://youtu.be/dQw4w9WgXcQ?si=xNynKo0r0fuhctzr">And if you want a third version of this game, click here!</a>
+    </div>
+    </div>
+    <p id="endText1">Was it all really worth it?<br><br><br><br><br></p>
+    <p id="endText2">The ridiculous amount of time you took into making those cookies...<br><br><br><br><br></p>
+    <p id="endText3">What was it for?<br><br><br><br><br></p>
+    <p id="endText4">Maybe it was just fun?<br><br><br><br><br></p>
+    <p id="endText5">Oh well.<br><br><br><br><br></p>
+    <p id="endText6">Congradulations for getting 1 Quadrillion cookies... I guess.<br><br><br><br><br></p>
+    <div id="ad">
+        <h1 id="endFollow">Follow Me!</h1>
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTx-yNeplA5iL-HamtTPYkfqufl5kqNCIZMKD0B7Q_c2A&s=10" id="birb2">
+        <br>
+        <p id="advertisement">Thought the game was fun? Follow me to support the development of games just like this, if not even better!</p>
+        <br>
+        <button id="resetGameBtn2">Restart</button>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.163.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.163.0/examples/jsm/",
+                "three-subdivide": "https://cdn.jsdelivr.net/npm/three-subdivide@1.1.5/build/index.module.min.js"
+            }
+        }
+    </script>
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+        import { LoopSubdivision } from "three-subdivide";
+        import { FontLoader } from 'https://unpkg.com/three@0.164.1/examples/jsm/loaders/FontLoader.js';
+        import { TextGeometry } from 'https://unpkg.com/three@0.164.1/examples/jsm/geometries/TextGeometry.js';
+
+        const body = document.body;
+        const everything = document.getElementById("everything");
+        everything.classList.add("hidden");
+        const title = document.getElementById("title");
+        const vspace = document.querySelector(".vspace2");
+        const vspace2 = document.querySelector(".vspace3");
+        const vspace3 = document.querySelector(".vspace4");
+        const loading = document.querySelector(".loading");
+        const loader = document.querySelector(".loader");
+        const startButton = document.getElementById("startButton");
+        startButton.classList.add("hidden");
+        const loadProgress = document.getElementById("loadProgress");
+        const navbar = document.getElementById('navbar');
+        const close = document.getElementById('close');
+        const open = document.getElementById('open');
+        const noAchievements = document.getElementById('noAchievements');
+        const achievement1 = document.getElementById('achievement1');
+        achievement1.hidden = true;
+        const achievement2 = document.getElementById('achievement2');
+        achievement2.hidden = true;
+        const achievement3 = document.getElementById('achievement3');
+        achievement3.hidden = true;
+        const achievement4 = document.getElementById('achievement4');
+        achievement4.hidden = true;
+        const achievement5 = document.getElementById('achievement5');
+        achievement5.hidden = true;
+        const news = document.getElementById('news');
+        const factoryNameElement = document.getElementById('factoryName');
+        const bigCookie = document.getElementById('bigCookie') || document.createElement('div');
+        const cookieValueDisplay = document.getElementById('cookieCount');
+        const multiplierCountDisplay = document.getElementById('multiplierCountDisplay');
+        const cursorCountDisplay = document.getElementById('cursorCountDisplay');
+        const cookiesPerSec = document.getElementById("cookiesPerSec");
+        const buyCursorBtn = document.getElementById('buyCursor');
+        const cursorCostDisplay = document.getElementById('cursorCostDisplay');
+        const buyMultiplierBtn = document.getElementById('buyMultiplier');
+        const multiplierCostDisplay = document.getElementById('multiplierCostDisplay');
+        const resetGameBtn = document.getElementById('resetGameBtn');
+        const brickColor = document.getElementById('brickColor');
+        const brickHighlight = document.getElementById('brickHighlight');
+        const fontColor = document.getElementById('fontColor');
+        const defaultBrickCol = document.getElementById('defaultBrickCol');
+        const defaultHighlightCol = document.getElementById('defaultHighlightCol');
+        const defaultFontCol = document.getElementById('defaultFontCol');
+        const saveGameBtn = document.getElementById("saveGame");
+        const muteAudio = document.getElementById('muteAudio');
+        const helpBtn = document.getElementById("help");
+        const volume = document.getElementById("volume");
+        const volumeValue = document.getElementById("volumeValue");
+        volume.addEventListener("input", function () {
+            bgMusic1.volume = volume.value / 100;
+            bgMusic2.volume = volume.value / 100;
+            bgMusic3.volume = volume.value / 100;
+            bgMusic4.volume = volume.value / 100;
+            volumeValue.textContent = volume.value;
+        });
+
+        window.onload = function() {
+            let bgMusic1 = document.getElementById("bgmusic1");
+            bgMusic1.load();
+            bgMusic1.loop = true;
+
+            let bgMusic2 = document.getElementById("bgmusic2");
+            bgMusic2.load();
+            bgMusic2.loop = true;
+
+            let bgMusic3 = document.getElementById("bgmusic3");
+            bgMusic3.load();
+            bgMusic3.loop = true;
+
+            let bgMusic4 = document.getElementById("bgmusic4");
+            bgMusic4.load();
+            bgMusic4.loop = true;
+
+            let bgMusicEnd = document.getElementById("bgMusicEnd");
+            bgMusicEnd.load();
+        }
+
+        const endText1 = document.getElementById("endText1");
+        endText1.classList.add("hidden");
+        const endText2 = document.getElementById("endText2");
+        endText2.classList.add("hidden");
+        const endText3 = document.getElementById("endText3");
+        endText3.classList.add("hidden");
+        const endText4 = document.getElementById("endText4");
+        endText4.classList.add("hidden");
+        const endText5 = document.getElementById("endText5");
+        endText5.classList.add("hidden");
+        const endText6 = document.getElementById("endText6");
+        endText6.classList.add("hidden");
+        const ad = document.getElementById("ad");
+        ad.classList.add("hidden");
+        const resetGameBtn2 = document.getElementById("resetGameBtn2");
+        resetGameBtn2.classList.add("hidden");
+
+        let cookieCount = 0;
+        let cursorCost = 15;
+        let cursorCount = 0;
+        let multiplierCost = 100;
+        let multiplierCount = 1;
+        let factoryName = "[NoInput]'s Cookie Factory";
+        let hasReachedOneCookie = false;
+        let autoClickIntervalId = null;
+        
+        function rndNum(min, max) {
+              return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        setTimeout(function() {
+            let min = 1;
+            let max = 17;
+            
+            loadProgress.value = rndNum(min, max);
+        }, 1750);
+
+        setTimeout(function() {
+            let min = 17;
+            let max = 31;
+            
+            loadProgress.value = rndNum(min, max);
+        }, 2000);
+        
+        setTimeout(function() {
+            let min = 31;
+            let max = 47;
+            
+            loadProgress.value = rndNum(min, max);
+        }, 2890);
+        
+        setTimeout(function() {
+            let min = 47;
+            let max = 56;
+            
+            loadProgress.value = rndNum(min, max);
+        }, 3190);
+        
+        setTimeout(function() {
+            let min = 56;
+            let max = 67;
+            
+            loadProgress.value = rndNum(min, max);
+        }, 3900);
+        
+        setTimeout(function() {
+            let min = 67;
+            let max = 94;
+            
+            loadProgress.value = rndNum(min, max);
+        }, 4400);
+        
+        setTimeout(function() {
+            loading.textContent = "Complete!";
+            loadProgress.value = 100;
+            loader.hidden = true;
+            startButton.classList.remove("hidden");
+        }, 4600);
+
+        startButton.addEventListener("click", function () {
+        setTimeout(function() {
+            Swal.fire({
+                icon: "warning",
+                title: "Notice",
+                text: "Hi! Just a friendly reminder telling you to save the game before you leave! (just in case, even though it autosaves when you leave)"
+            });
+        }, 30000);
+
+        bgMusic1.play();
+        everything.classList.remove("hidden");
+        title.hidden = true;
+        vspace.classList.add("hidden");
+        vspace2.classList.add("hidden");
+        vspace3.classList.add("hidden");
+        loading.hidden = true;
+        startButton.classList.add("hidden");
+        loadProgress.classList.add("hidden");
+        body.style.backgroundColor = "#dd7973";
+        body.style.backgroundImage = "linear-gradient(335deg, #b14a4a 23%, transparent 23%),linear-gradient(155deg, #b14a4a 23%, transparent 23%),linear-gradient(335deg, #b14a4a 23%, transparent 23%),linear-gradient(155deg, #b14a4a 23%, transparent 23%)";
+
+        open.classList.add("hidden");
+        close.addEventListener("click", function() {
+            navbar.classList.add("hide");
+            close.classList.add("hide");
+
+            setTimeout(function(){
+                open.classList.remove("hidden");
+                navbar.classList.add("hidden");
+                close.classList.add("hidden");
+                navbar.classList.remove("hide");
+                close.classList.remove("hide");
+            }, 950);
+        });
+
+        open.addEventListener("click", function() {
+            open.classList.add("hidden");
+            navbar.classList.remove("hidden");
+            close.classList.remove("hidden");
+            close.classList.add("show");
+            navbar.classList.add("show");
+
+            setTimeout(function() {
+                close.classList.remove("show");
+                navbar.classList.remove("show");
+            }, 1000);
+        });
+
+        function generateUniqueId() {
+            return 'player_' + Date.now() + Math.random().toString(36).substr(2, 9);
+        }
+        
+        function formatCompactNumber(number) {
+            return new Intl.NumberFormat('en-US', {
+                notation: 'compact',
+                compactDisplay: 'short'
+            }).format(number);
+        }
+
+        function updateDisplay() {
+            cookieValueDisplay.textContent = formatCompactNumber(cookieCount) + " Cookies";
+            multiplierCountDisplay.textContent = formatCompactNumber(multiplierCount) + "x Multiplier";
+            cursorCountDisplay.textContent = cursorCount.toLocaleString("en-US") + " Cursors";
+            cookiesPerSec.textContent = (cursorCount * multiplierCount).toLocaleString("en-US") + " Cookies/s";
+            cursorCostDisplay.textContent = formatCompactNumber(cursorCost) + " Cookies";
+            multiplierCostDisplay.textContent = formatCompactNumber(multiplierCost) + " Cookies";
+            factoryNameElement.textContent = factoryName;
+        }
+
+        function hasSavedGame() {
+            return localStorage.getItem('astroBirbCookieClicker') !== null;
+        }
+
+        function loadGameData() {
+            const savedData = localStorage.getItem('astroBirbCookieClicker');
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                cookieCount = data.cookieCount || 0;
+                cursorCost = data.cursorCost || 15;
+                cursorCount = data.cursorCount || 0;
+                multiplierCost = data.multiplierCost || 100;
+                multiplierCount = data.multiplierCount || 1;
+                factoryName = data.factoryName || "[NoInput]'s Cookie Factory";
+                hasReachedOneCookie = data.hasReachedOneCookie || false;
+                console.clear();
+                console.log('Game data loaded:', data);
+            } else {
+                console.clear();
+                console.log('No saved game data found. Starting new game.');
+            }
+            updateDisplay();
+            resetAutoClicker();
+        }
+
+        function saveGameData() {
+            if (cookieCount >= 1 || hasReachedOneCookie) {
+                const gameData = {
+                    cookieCount: cookieCount,
+                    cursorCost: cursorCost,
+                    cursorCount: cursorCount,
+                    multiplierCost: multiplierCost,
+                    multiplierCount: multiplierCount,
+                    factoryName: factoryName,
+                    hasReachedOneCookie: hasReachedOneCookie
+                };
+                localStorage.setItem('astroBirbCookieClicker', JSON.stringify(gameData));
+            }
+        }
+        
+        saveGameBtn.addEventListener("click", function () {
+            saveGameData();
+        });
+
+        const Toast = Swal.mixin({
+            toast: true,
+            timer: 3000,
+            timerProgressBar: true,
+            position: 'top-end',
+            showConfirmButton: false,
+        });
+
+        function resetGame() {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, reset it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    localStorage.removeItem('astroBirbCookieClicker');
+                    cookieCount = 0;
+                    cursorCost = 15;
+                    cursorCount = 0;
+                    multiplierCost = 100;
+                    multiplierCount = 1;
+                    factoryName = "[NoInput]'s Cookie Factory";
+                    hasReachedOneCookie = false;
+                    clearInterval(autoClickIntervalId);
+                    autoClickIntervalId = null;
+                    updateDisplay();
+                    scrollTo(0, 0);
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: "Successfuly deleted save progress."
+                    }).then(() => {
+                        initializeGame();
+                    });
+                }
+            });
+        }
+
+        function manualClickCookie() {
+            cookieCount += multiplierCount;
+            newsUpdates()
+            if (cookieCount >= 1) {
+                hasReachedOneCookie = true;
+            }
+            updateDisplay();
+            camera.zoom = 1.3;
+            camera.updateProjectionMatrix();
+            setTimeout(() => {
+                camera.zoom = 1;
+                camera.updateProjectionMatrix();
+            }, 100);
+        }
+
+        function autoClickCookie() {
+            cookieCount += multiplierCount;
+            newsUpdates()
+            if (cookieCount >= 1) {
+                hasReachedOneCookie = true;
+            }
+            updateDisplay();
+        }
+
+        function resetAutoClicker() {
+            if (autoClickIntervalId) {
+                clearInterval(autoClickIntervalId);
+            }
+
+            if (cursorCount > 0) {
+                const delay = Math.max(50, 1000 / cursorCount);
+                autoClickIntervalId = setInterval(autoClickCookie, delay);
+            } else {
+                console.log('No cursors, auto-clicker stopped.');
+            }
+        }
+
+        function checkCursorSpeed() {
+            console.log(`Auto-clicking every ${delay}ms with ${cursorCount} cursors.`);
+        }
+
+        function buyCursor() {
+            if (cookieCount >= cursorCost) {
+                cookieCount -= cursorCost;
+                cursorCount++;
+                cursorCost = Math.floor(cursorCost * 2.15);
+                updateDisplay();
+                saveGameData();
+                resetAutoClicker();
+                
+                Toast.fire({
+                    icon: "success",
+                    text: "Successfully bought cursor!"
+                });
+            } else {
+                buyCursorBtn.classList.add('nuhUh');
+                buyCursorBtn.disabled = true;
+                body.classList.add("blur");
+                setTimeout(function() {
+                    buyCursorBtn.disabled = false;
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Not enough cookies!',
+                        text: "You need " + (cursorCost - cookieCount).toLocaleString("en-US") + " more cookies to buy a cursor.",
+                    });
+
+                    buyCursorBtn.classList.remove('nuhUh');
+                }, 500);
+            }
+        }
+
+        function buyMultiplier() {
+            if (cookieCount >= multiplierCost) {
+                cookieCount -= multiplierCost;
+                multiplierCount *= 2;
+                multiplierCost = Math.floor(multiplierCost * 2.15);
+                updateDisplay();
+                saveGameData();
+                
+                Toast.fire({
+                    icon: "success",
+                    text: "Successfully bought multiplier!"
+                });
+            } else {
+                buyMultiplierBtn.classList.add('nuhUh');
+                buyCursorBtn.disabled = true;
+                setTimeout(function() {
+                    buyCursorBtn.disabled = false;
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Not enough cookies!',
+                        text: "You need " + (multiplierCost - cookieCount).toLocaleString("en-US") + " more cookies to buy a multiplier.",
+                    });
+
+                    buyMultiplierBtn.classList.remove('nuhUh');
+                }, 500);
+            }
+        }
+
+        let blah = 0;
+        let blah2 = 0;
+        let blah3 = 0;
+        let blah4 = 0;
+        let blah5 = 0;
+
+        let news1 = false;
+        let news2 = false;
+        let news3 = false;
+        let news4 = false;
+        let news5 = false;
+        let news6 = false;
+        let news7 = false;
+        let news8 = false;
+        let news9 = false;
+        let news10 = false;
+        let news11 = false;
+        let news12 = false;
+        let news13 = false;
+        let news14 = false;
+        // Lol I ran out of names for variables
+
+        function newsUpdates() {
+            if (cookieCount >= 100) {
+                news.textContent = "Your local townspeople are enjoying your cookies.";
+                if (news1 == false) {
+                    Toast.fire({
+                        icon: "warning",
+                        text: "The news has updated!"
+                    });
+                    news1 = true;
+                }
+            }
+            if (cookieCount >= 500) {
+                news.textContent = "Everyone in the town knows about your cookies.";
+                if (news2 == false) {
+                    Toast.fire({
+                        icon: "warning",
+                        text: "The news has updated!"
+                    });
+                    news2 = true;
+                }
+            }
+            if (cookieCount >= 1000) {
+                news.textContent = "Other towns are hearing about your cookies.";
+                if (news3 == false) {
+                    Toast.fire({
+                        icon: "warning",
+                        text: "The news has updated!"
+                    });
+                    news3 = true;
+                }
+            }
+            
+            if (cookieCount >= 5000) {
+                news.textContent = "Your cookies are on the news!";
+                if (news4 == false) {
+                    Toast.fire({
+                        icon: "warning",
+                        text: "The news has updated!"
+                    });
+                    news4 = true;
+                }
+            }
+            
+            if (cookieCount >= 10000) {
+                news.textContent = "The president wants to try your cookies.";
+                blah++;
+                if (blah == 1) {
+                    Toast.fire({
+                        icon: "warning",
+                        text: "New achievement unlocked!"
+                    });
+                }    
+                achievement1.hidden = false;
+                noAchievements.innerHTML = "Hover over the achievements for a cool effect!";
+            }
+            
+            if (cookieCount >= 50000) {
+                news.textContent = "The demand for your cookies is overwhelmingly high.";
+                if (news5 == false) {
+                    Toast.fire({
+                        icon: "warning",
+                        text: "The news has updated!"
+                    });
+                    news5 = true;
+                }
+            }
+                
+            if (cookieCount >= 100000) {
+                news.textContent = "The price for your cookies go up due to extremely high demand and low supply.";
+                if (news6 == false) {
+                    Toast.fire({
+                        icon: "warning",
+                        text: "The news has updated!"
+                    });
+                    news6 = true;
+                }
+            }
+            
+            if (cookieCount >= 500000) {
+                news.textContent = "You were able to make enough cookies to have a stable supply and demand... For now...";
+                if (news7 == false) {
+                    Toast.fire({
+                        icon: "warning",
+                        text: "The news has updated!"
+                    });
+                    news7 = true;
+                }
+            }
+            
+            if (cookieCount >= 1000000) {
+                news.textContent = "With one million cookies, business is booming.";
+                if (news8 == false) {
+                    Toast.fire({
+                        icon: "warning",
+                        text: "The news has updated!"
+                    });
+                    news8 = true;
+                }
+            }
+            
+            if (cookieCount >= 10000000) {
+                news.textContent = "The entire continent knows about your cookies!";
+                if (news9 == false) {
+                    Toast.fire({
+                        icon: "warning",
+                        text: "The news has updated!"
+                    });
+                    news9 = true;
+                }
+            }
+            
+            if (cookieCount >= 100000000) {
+                news.textContent = "Your cookies are being shipped worldwide";
+                if (news10 == false) {
+                    Toast.fire({
+                        icon: "warning",
+                        text: "The news has updated!"
+                    });
+                    news10 = true;
+                }
+            }
+            
+            if (cookieCount >= 1000000000) {
+                news.textContent = "You've reached one billion cookies! What a milestone!";
+                blah2++;
+                if (blah2 == 1) {
+                    Toast.fire({
+                        icon: "warning",
+                        text: "New achievement unlocked!"
+                    });
+                }    
+                achievement2.hidden = false
+            }
+            
+            if (cookieCount >= 50000000000) {
+                news.textContent = "People start protesting that your cookies are unhealthy.";
+                if (news11 == false) {
+                    Toast.fire({
+                        icon: "warning",
+                        text: "The news has updated!"
+                    });
+                    news11 = true;
+                }
+            }
+                
+            if (cookieCount >= 1000000000000){
+                news.textContent = "The people have started world war III! You must shut down your business and flee the country."
+                blah3++;
+                if (blah3 == 1) {
+                    Toast.fire({
+                        icon: "warning",
+                        text: "New achievement unlocked!"
+                    });
+                }    
+                achievement3.hidden = false;
+            }
+                
+            if (cookieCount >= 100000000000000) {
+                news.textContent = "Hiding away in your bunker, the war is happening right above you. All your cookies are now gone... Maybe...";
+                blah4++;
+                if (blah4 == 1) {
+                    Toast.fire({
+                        icon: "warning",
+                        text: "New achievement unlocked!"
+                    });
+                }    
+                achievement4.hidden = false;
+            }
+
+            if (cookieCount >= 5000000000000) {
+                news.textContent = "You start selling cookies underground in your bunker.";
+                if (news12 == false) {
+                    Toast.fire({
+                        icon: "warning",
+                        text: "The news has updated!"
+                    });
+                    news12 = true;
+                }
+            }
+            
+            if (cookieCount >= 50000000000000) {
+                news.textContent = "You improve the cookie recipe so it's more healthy.";
+                if (news13 == false) {
+                    Toast.fire({
+                        icon: "warning",
+                        text: "The news has updated!"
+                    });
+                    news13 = true;
+                }
+            }
+            
+            if (cookieCount >= 100000000000000) {
+                news.textContent = "People start liking your cookies again.";
+                if (news14 == false) {
+                    Toast.fire({
+                        icon: "warning",
+                        text: "The news has updated!"
+                    });
+                    news14 = true;
+                }
+            }
+            
+            if (cookieCount >= 1000000000000000) {
+                news.textContent = "You've reached 1 QUADRILLION COOKIES!! Congradualtions!!";
+                blah5++;
+                if (blah5 == 1) {
+                    Toast.fire({
+                        icon: 'warning',
+                        text: "New achievement unlocked!"
+                    }).then((result) => {
+                        Swal.fire({
+                            text: "Congratulations. You have reached 1 Quadrillion cookies. An achievement no one thought was possible."
+                        }).then((result) => {
+                            Swal.fire("You've made so many cookies, That you've gotten tired of it.").then((result) => {
+                                Swal.fire("Maybe it's time to end it all... With an epic demolition!").then((result) => {
+                                    Swal.fire({
+                                        icon: "danger",
+                                        title: "⚠️warning⚠️",
+                                        text: 'Flashing lights! The sequence will start once you click ok. If you are epileptic, click "Skip Sequence".',
+                                        showCancelButton: true,
+                                        confirmButtonColor: '#3085d6',
+                                        cancelButtonColor: '#d33',
+                                        confirmButtonText: 'Ok',
+                                        cancelButtonText: 'Skip Sequence'
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            bgMusic1.muted = true;
+                                            bgMusic2.muted = true;
+                                            bgMusic3.muted = true;
+                                            bgMusic4.muted = true;
+                                            bgMusicEnd.play();
+                                            bgMusicEnd.muted = false;
+                                            
+                                            setTimeout(function() {
+                                                everything.classList.add("hidden");
+                                                body.classList.add("flash");
+                                                body.style.backgroundImage = "none";
+                                            }, 7800);
+
+                                            setTimeout(function() {
+                                                body.style.backgroundImage = "linear-gradient(335deg, #b14a4a 23%, transparent 23%),linear-gradient(155deg, #b14a4a 23%, transparent 23%),linear-gradient(335deg, #b14a4a 23%, transparent 23%),linear-gradient(155deg, #b14a4a 23%, transparent 23%)"
+                                                everything.classList.remove("hidden");
+                                                body.classList.remove("flash");
+                                                body.classList.add("nuke");
+                                            }, 9800);
+
+                                            setTimeout(function(){
+                                            everything.classList.add("hidden");
+                                                body.style.backgroundColor = "#fff";
+                                                body.style.backgroundImage = "none";
+                                            }, 45250);
+
+                                            setTimeout(function(){
+                                            body.style.backgroundColor = "#000";
+                                            }, 45312);
+
+                                            setTimeout(function(){
+                                                body.style.backgroundColor = "#fff";
+                                            }, 45375);
+                                            
+                                        setTimeout(ending, 45500);
+                                        }
+
+                                        else if(!result.isConfirmed) {
+                                            ending();
+                                        }
+                                    })
+                                });
+                            });
+                        });
+                    });
+                }
+                achievement5.hidden = false;
+            }
+        }
+
+        function ending() {
+            bgMusic1.muted = true;
+            bgMusic2.muted = true;
+            bgMusic3.muted = true;
+            bgMusic4.muted = true;
+            body.style.backgroundColor = "#000";
+            body.style.backgroundImage = "none";
+            everything.classList.add("hidden");
+            body.classList.remove("nuke");
+            setTimeout(function() {
+                endText1.classList.remove("hidden");
+            }, 3000);
+            
+            setTimeout(function() {
+                endText2.classList.remove("hidden");
+            }, 6000);
+            
+            setTimeout(function() {
+                endText3.classList.remove("hidden");
+            }, 9000);
+            
+            setTimeout(function() {
+                endText4.classList.remove("hidden");
+                endText1.hidden = true;
+                endText2.hidden = true;
+                endText3.hidden = true;
+            }, 12000);
+            
+            setTimeout(function() {
+                endText5.classList.remove("hidden");
+            }, 15000);
+            
+            setTimeout(function() {
+                endText6.classList.remove("hidden");
+            }, 18000);
+
+            setTimeout(function() {
+                endText4.hidden = true;
+                endText5.hidden = true;
+                endText6.hidden = true;
+            }, 21000);
+
+            setTimeout(function() {
+                ad.classList.remove("hidden");
+                ad.classList.add("fade");
+                resetGameBtn2.classList.remove("hidden");
+                resetGameBtn2.classList.add("fade");
+                setTimeout(function() {
+                    ad.classList.remove("fade");
+                    resetGameBtn2.classList.remove("fade");
+                }, 4900);
+            }, 22000);
+        }
+        
+        resetGameBtn2.addEventListener("click", function() {
+                localStorage.removeItem('astroBirbCookieClicker');
+            cookieCount = 0;
+            cursorCost = 15;
+            cursorCount = 0;
+            multiplierCost = 100;
+            multiplierCount = 1;
+            factoryName = "[NoInput]'s Cookie Factory";
+            hasReachedOneCookie = false;
+            clearInterval(autoClickIntervalId);
+            autoClickIntervalId = null;
+            updateDisplay();
+            scrollTo(0, 0);
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: "Successfuly deleted save progress."
+            }).then(() => {
+                initializeGame();
+                ad.classList.add("hidden");
+                resetGameBtn2.classList.add("remove");
+                body.style.backgroundColor = "#dd7973";
+                body.style.backgroundImage = "linear-gradient(335deg, #b14a4a 23%, transparent 23%),linear-gradient(155deg, #b14a4a 23%, transparent 23%),linear-gradient(335deg, #b14a4a 23%, transparent 23%),linear-gradient(155deg, #b14a4a 23%, transparent 23%)";
+                everything.classList.remove("hidden");
+                achievement1.classList.add("hidden");
+                achievement2.classList.add("hidden");
+                achievement3.classList.add("hidden");
+                achievement4.classList.add("hidden");
+                achievement5.classList.add("hidden");
+                bgMusic1.play();
+                bgMusic1.currentTime = 0;
+                bgMusic1.muted = false;
+                bgMusic2.muted = false;
+                bgMusic3.muted = false;
+                bgMusic4.muted = false;
+            });
+        });
+        
+        brickColor.addEventListener('input', changeBrickColor);
+
+        function changeBrickColor() {
+            body.style.backgroundImage = "linear-gradient(335deg, " + brickColor.value + " 23%, transparent 23%),linear-gradient(155deg, " + brickColor.value + " 23%, transparent 23%),linear-gradient(335deg, " + brickColor.value + " 23%, transparent 23%),linear-gradient(155deg, " + brickColor.value + " 23%, transparent 23%";
+        }
+        
+brickHighlight.addEventListener('input', changeBrickHighlight);
+        
+        function changeBrickHighlight() {
+            body.style.backgroundColor = brickHighlight.value;
+        }
+        
+        fontColor.addEventListener('input', changeFontColor);
+
+        function changeFontColor() {
+            body.style.color = fontColor.value;
+        }
+        
+        defaultBrickCol.addEventListener('click', defaultBrickColor);
+        
+        function defaultBrickColor() {
+            body.style.backgroundImage = "linear-gradient(335deg, #b14a4a 23%, transparent 23%),linear-gradient(155deg, #b14a4a 23%, transparent 23%),linear-gradient(335deg, #b14a4a 23%, transparent 23%),linear-gradient(155deg, #b14a4a 23%, transparent 23%)";
+            brickColor.value = "#b14a4a";
+        }
+        
+        defaultHighlightCol.addEventListener('click', defaultHighlightColor);
+        
+        function defaultHighlightColor() {
+            body.style.backgroundColor = "#dd7973";
+            brickHighlight.value = "#DD7973";
+
+        }
+        
+        defaultFontCol.addEventListener('click', defaultFontColor);
+        
+        function defaultFontColor() {
+            body.style.color = "#ffffff";
+            fontColor.value = "#ffffff";
+        }
+        
+        muteAudio.addEventListener("click", mute);
+        function mute() {
+            bgMusic1.muted = true;
+            bgMusic2.muted = true;
+            bgMusic3.muted = true;
+            bgMusic4.muted = true;
+            muteAudio.addEventListener("click", unmute);
+            muteAudio.textContent = "Unmute Music";
+            muteAudio.removeEventListener("click", mute);
+        }
+        
+        function unmute() {
+            bgMusic1.muted = false;
+            bgMusic2.muted = false;
+            bgMusic3.muted = false;
+            bgMusic4.muted = false;
+            muteAudio.addEventListener("click", mute);
+            muteAudio.textContent = "Mute Music";
+            muteAudio.removeEventListener("click", unmute);
+        }
+        
+        helpBtn.addEventListener("click", help);
+        
+        function help() {
+            Swal.fire("Hello! welcome to ☕︎︎ AstroBirb ✦'s Cookie Clicker 2! To start playing, you need the click the 3D cookie to bake a cookie. (You can move the cookie around!)").then(() => {
+                Swal.fire("After a while of clicking cookies, you might realize that it is a very slow proccess.").then(() => {
+                    scrollTo(0, 750);
+                    setTimeout(function() {
+                        Swal.fire("This is the cursor. Buying it will grant you an auto clicker that clicks once every second. But you can buy it more than once, and the more you buy, the faster they click.").then(() => {
+                            scrollTo(0, 1250);
+                            setTimeout(function() {
+                                Swal.fire("This is the multiplier, unlike the cursor, it is very expensive. The multiplier doubles the amount of cookies you make every click. This also applies to your cursors. Buying the multiplier will also double it's power so buying it twice gives you a 4x multiplier.").then(() => {
+                                    scrollTo(0, 0);
+                                    setTimeout(function() {
+                                        Swal.fire("This section includes all of your achievements. Achievements are rewarded when you reach a certain amount of cookies. There are a total of five achievements in the game.").then(() => {
+                                        
+                                            Swal.fire("Under the achievements is the news. Similar to achievements, the news updates every time you reach a certain amount of cookies, but unlike achievements  they appear much more often.").then(() => {
+                                            Swal.fire("And that's it! Have fun with the game and don't forget to follow me! Also, the game ends when you reach 1 quadrillion cookies, but don't worry, the game saves your progress so if you need a break, take one!");
+                                            });
+                                        });
+                                    }, 1000);
+                                });
+                            }, 1000);
+                        });
+                    }, 1000);
+                });
+            });
+        }
+
+        async function initializeGame() {
+            const saved = hasSavedGame();
+
+            loadGameData();
+
+            if (!saved) {
+                Swal.fire({
+                    icon: "warning",
+                    title: "Notice",
+                    text: "This game saves your progress!",
+                }).then(() => {
+                    if (factoryName === "[NoInput]'s Cookie Factory") {
+                        Swal.fire({
+                            title: 'Please enter your name...',
+                            input: 'text',
+                            inputPlaceholder: 'Mr. Munchkins man',
+                            allowOutsideClick: false,
+                        }).then((result) => {
+                            if (result.value === "") {
+                                Swal.fire("So...looks like you were <u>TOO LAZY</u> to enter your name...").then(() => {
+                                    Swal.fire("I'm going to give you one. Last. Chance.").then(() => {
+                                        Swal.fire({
+                                            title: 'You know what to do.',
+                                            input: 'text',
+                                            inputPlaceholder: 'Loser',
+                                            allowOutsideClick: false,
+                                        }).then((result) => {
+                                            if (result.value === "") {
+                                                Swal.fire("I'm so done with you.");
+                                                factoryName = "Loser's Cookie Factory";
+                                            } else {
+                                                Swal.fire("Finally, you followed the directions!");
+                                                factoryName = result.value + "'s Cookie Factory";
+                                            }
+                                            updateDisplay();
+                                        }).then((result) => {
+                                        });
+                                    });
+                                });
+                            } else {
+                                factoryName = result.value + "'s Cookie Factory";
+                                updateDisplay();
+                            }
+                        });
+                    }
+                });
+            }
+
+            setInterval(saveGameData, 5000);
+        }
+        
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x212121);
+
+        if (!document.getElementById('bigCookie')) {
+            bigCookie.style.backgroundImage = 'url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRByFTyfEF0v54EaOW3gwUgN0P4SGEBagb3P1uP49Mc6A&s=10")';
+        }
+
+        const textureimg = window.getComputedStyle(bigCookie).getPropertyValue('background-image').slice(5,-2);
+        const texture = new THREE.TextureLoader().load(textureimg);
+        texture.offset.set(0.2, 0.2);
+        texture.repeat.set(0.5, 0.5);
+
+        const material = new THREE.MeshBasicMaterial( {
+            map: texture,
+            color:'#d49746',
+            transparent: true,
+            side:THREE.DoubleSide,
+        });
+
+        const iterations = 2;
+
+        const params = {
+            split: true,
+            uvSmooth: true,
+            preserveEdges: false,
+            flatOnly: false,
+            maxTriangles: Infinity,
+        };
+
+        const geometry = LoopSubdivision.modify(new THREE.CylinderGeometry(15, 15, 3, 128, 1), iterations, params);
+
+        const mesh = new THREE.Mesh(geometry, material);
+        scene.add(mesh);
+
+        const sizes = {
+            width: window.innerWidth,
+            height: window.innerHeight/2
+        }
+
+        const light = new THREE.PointLight(0xffffff, 750, 750);
+        light.position.set(0, 15, 0);
+        scene.add(light);
+
+        const camera = new THREE.PerspectiveCamera(
+            45, sizes.width/sizes.height, 0.1, 3000);
+        camera.position.set(0, 0, 100);
+        scene.add(camera);
+
+        const canvas = document.querySelector('.webgl');
+        const renderer = new THREE.WebGLRenderer({ canvas });
+
+        renderer.setSize(sizes.width, sizes.height);
+        renderer.render(scene, camera);
+        renderer.setPixelRatio(3);
+
+        window.addEventListener('resize', ()=>{
+            sizes.width = window.innerWidth;
+            sizes.height = window.innerHeight/2;
+
+            camera.aspect = sizes.width / sizes.height;
+            camera.updateProjectionMatrix();
+            renderer.setSize(sizes.width, sizes.height);
+        });
+
+        const controls = new OrbitControls(camera, canvas);
+        controls.enableDamping = true;
+        controls.enablePan = false;
+        controls.enableZoom = false;
+        controls.autoRotate = true;
+        controls.autoRotateSpeed = 5;
+
+        const loop = ()=>{
+            controls.update();
+            renderer.render(scene, camera);
+            window.requestAnimationFrame(loop);
+        }
+        loop();
+
+        canvas.addEventListener('click', manualClickCookie);
+        buyCursorBtn.addEventListener('click', buyCursor);
+        buyMultiplierBtn.addEventListener('click', buyMultiplier);
+        resetGameBtn.addEventListener('click', resetGame);
+
+        initializeGame();
+        window.addEventListener('beforeunload', () => {
+            if (cookieCount >= 1 || hasReachedOneCookie) {
+                saveGameData();
+                bgMusic1.muted = true;
+                bgMusic2.muted = true;
+                bgMusic3.muted = true;
+                bgMusic4.muted = true;
+            }
+        });
+        });
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+        import { LoopSubdivision } from "three-subdivide"; 
+        import { FontLoader } from 'https://unpkg.com/three@0.164.1/examples/jsm/loaders/FontLoader.js';
+        import { TextGeometry } from 'https://unpkg.com/three@0.164.1/examples/jsm/geometries/TextGeometry.js';
+
+        let scene2, camera2, renderer2, controls2;
+        let textMesh;
+
+        function init() {
+            scene2 = new THREE.Scene();
+            scene2.background = new THREE.Color(0x222222); 
+
+            camera2 = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera2.position.set(0, 15, 50); 
+
+            const canvasElement = document.getElementById('webgl2');
+            if (!canvasElement) {
+                console.error("Canvas with ID 'webgl2' not found!");
+                return; 
+            }
+            renderer2 = new THREE.WebGLRenderer({ canvas: canvasElement, antialias: true }); 
+            renderer2.setSize(window.innerWidth/2, window.innerHeight/2);
+
+            controls2 = new OrbitControls(camera2, renderer2.domElement);
+            controls2.enableDamping = true;
+            controls2.dampingFactor = 0.05;
+            controls2.screenSpacePanning = false;
+            controls2.minDistance = 10;
+            controls2.maxDistance = 200;
+            controls2.enablePan = false;
+            controls2.enableZoom = false;
+            controls2.autoRotate = true;
+            controls2.autoRotateSpeed = 5;
+            controls2.target.set(0, 0, 0); 
+
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+            scene2.add(ambientLight);
+
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
+            directionalLight.position.set(5, 10, 7.5);
+            scene2.add(directionalLight);
+
+            const fontLoader = new FontLoader();
+            fontLoader.load('https://unpkg.com/three@0.164.1/examples/fonts/helvetiker_regular.typeface.json', function (font) {
+                createText(font);
+            });
+
+            window.addEventListener('resize', onWindowResize, false);
+            animate();
+        }
+
+        function createText(font) {
+            const text = "X2";
+            const textMaterial = new THREE.MeshStandardMaterial({
+                color: 0xff9900,
+                metalness: 0.2,
+                roughness: 0.3
+            });
+
+            const geometry2 = new TextGeometry(text, {
+                font: font,
+                size: 10,
+                depth: 2,
+                curveSegments: 12,
+                bevelEnabled: true,
+                bevelThickness: 0.5,
+                bevelSize: 0.3,
+                bevelOffset: 0,
+                bevelSegments: 5
+            });
+
+            geometry2.computeBoundingBox();
+            const textBoundingBox = geometry2.boundingBox;
+            const textWidth = textBoundingBox.max.x - textBoundingBox.min.x;
+            const textHeight = textBoundingBox.max.y - textBoundingBox.min.y;
+
+            geometry2.translate(-textWidth / 2, -textHeight / 2, 0);
+
+            textMesh = new THREE.Mesh(geometry2, textMaterial);
+            scene2.add(textMesh);
+
+            controls2.target.set(0, 0, 0);
+            camera2.lookAt(0,0,0); 
+        }
+
+        function onWindowResize() {
+            camera2.aspect = ((window.innerWidth / 2) / (window.innerHeight / 2));
+            camera2.updateProjectionMatrix();
+            renderer2.setSize((window.innerWidth / 2), (window.innerHeight / 2 ));
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            controls2.update();
+            renderer2.render(scene2, camera2);
+        }
+
+        init();
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+        const canvas = document.getElementById('webgl3');
+
+        const scene = new THREE.Scene();
+        
+        const camera = new THREE.PerspectiveCamera(125, (window.innerWidth / 2) / (window.innerHeight / 2), 0.1, 1000);
+        
+        const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+        renderer.setClearColor(0x212121);
+        renderer.setSize(window.innerWidth / 2, window.innerHeight / 2);
+
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+        controls.enableZoom = false;
+        controls.enablePan = false;
+        controls.autoRotate = true;
+        controls.autoRotateSpeed = 5;
+        controls.target.set(0, 0, 0);
+        controls.update();
+        
+        const ambientLight = new THREE.AmbientLight(0x404040, 3); 
+        scene.add(ambientLight);
+
+        const directionalLight1 = new THREE.DirectionalLight(0xffffff, 1.5);
+        directionalLight1.position.set(2, 3, 5);
+        scene.add(directionalLight1);
+
+        const directionalLight2 = new THREE.DirectionalLight(0xffffff, 0.8);
+        directionalLight2.position.set(-2, -3, -5);
+        scene.add(directionalLight2);
+
+        const pixelArtOutline = [
+            [0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0],
+            [0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0],
+            [1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1],
+            [1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
+            [1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+            [0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
+            [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
+            [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
+            [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
+            [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
+            [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0]
+        ];
+
+        const pixelArtFill = [
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 0],
+            [0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0],
+            [0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0],
+            [0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+            [0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+            [0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+            [0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+            [0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+            [0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+            [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+            [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+            [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0]
+        ];
+
+        const handGroup = new THREE.Group();
+        const pixelSize = 0.5;
+        const depth = 0.5;
+
+        const fillMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff });
+        const outlineMaterial = new THREE.MeshLambertMaterial({ color: 0x000000 });
+
+        const numRows = pixelArtOutline.length;
+        const numCols = pixelArtOutline[0].length;
+        const offsetX = (numCols * pixelSize) / 2;
+        const offsetY = (numRows * pixelSize) / 2;
+
+        for (let y = 0; y < pixelArtFill.length; y++) {
+            for (let x = 0; x < pixelArtFill[y].length; x++) {
+                if (pixelArtFill[y][x] === 1) {
+                    const geometry = new THREE.BoxGeometry(pixelSize, pixelSize, depth);
+                    const cube = new THREE.Mesh(geometry, fillMaterial);
+
+                    cube.position.set(
+                        x * pixelSize - offsetX,
+                        -y * pixelSize + offsetY,
+                        0
+                    );
+                    handGroup.add(cube);
+                }
+            }
+        }
+
+        const outlineOffset = 0.01;
+        const outlinePixelSize = pixelSize + (outlineOffset * 2);
+
+        for (let y = 0; y < pixelArtOutline.length; y++) {
+            for (let x = 0; x < pixelArtOutline[y].length; x++) {
+                if (pixelArtOutline[y][x] === 1) {
+                    const geometry = new THREE.BoxGeometry(outlinePixelSize, outlinePixelSize, depth);
+                    const cube = new THREE.Mesh(geometry, outlineMaterial);
+
+                    cube.position.set(
+                        x * pixelSize - offsetX,
+                        -y * pixelSize + offsetY,
+                        -outlineOffset
+                    );
+                    handGroup.add(cube);
+                }
+            }
+        }
+
+        scene.add(handGroup);
+        handGroup.position.set(0, 0, 0);
+        camera.position.set(0, 0, 8);
+        camera.lookAt(0, 0, 0);
+
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            renderer.render(scene, camera);
+        }
+
+        window.onload = function () {
+            animate();
+        }
+
+        window.addEventListener('resize', () => {
+            camera.aspect = ((window.innerWidth / 2) / (window.innerHeight / 2));
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth / 2, window.innerHeight / 2);
+        });
+    </script>
+</body>
+</html>
